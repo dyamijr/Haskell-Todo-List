@@ -38,8 +38,8 @@ completeTask :: Task -> Task
 completeTask task = task { completed = True }
 
 -- Function to remove a task
-removeTask :: Task -> TodoList -> TodoList
-removeTask = delete
+removeTaskByIndex :: Int -> TodoList -> TodoList
+removeTaskByIndex idx list = take idx list ++ drop (idx + 1) list
 
 -- Function to sort the todo list by priority
 sortByPriority :: TodoList -> TodoList
