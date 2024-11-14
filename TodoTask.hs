@@ -5,7 +5,7 @@ module TodoTask (
     createTask,
     categorizeTask,
     completeTask,
-    removeTask,
+    removeTaskByIndex,
     sortByPriority
 ) where 
 
@@ -30,7 +30,7 @@ createTask :: String -> Priority -> Maybe Day -> Task
 createTask desc prio due = Task desc False prio due []
 
 -- Function to add a category tag to a task 
-categorizeTask :: Task -> String-> Task
+categorizeTask :: Task -> String -> Task
 categorizeTask task category = task { categories = category:categories task }
 
 -- Function to mark a task as complete
