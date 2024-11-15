@@ -6,49 +6,40 @@ import TodoParser
 import TodoUI
 import Control.Monad
 import Control.Monad.IO.Class
+import Control.Monad.Trans.State
 
 main :: IO ()
 main = do
   printWelcomeMessage
-  mainLoop (S (const ((), [])))
+  evalStateT mainLoop []
 
 
-mainLoop :: TodoListState TodoList () -> IO ()
-mainLoop state = do
-  printPrompt
-  input <- getLine
+mainLoop :: TodoListState()
+mainLoop = do
+  liftIO printPrompt
+  input <- liftIO getLine
   case parseCommand input of
-    Just command -> do
+    Just command -> 
       if command == Quit
-        then printExitMessage
+        then liftIO printExitMessage
         else do
-          let newState = executeCommand command
-          let ((), list) = runState newState []
-          -- We should not be printing each time probably should make a command show todo or sum like that 
-          printTodoList list
-          printState newState
-          mainLoop newState
+          executeCommand command
+          mainLoop
     Nothing -> do
-      printInvalidCommand
-      mainLoop state
+      liftIO printInvalidCommand
+      mainLoop
 
-executeCommand :: Command -> TodoListState TodoList ()
-executeCommand (AddTask desc prio dueDate) = do
+executeCommand :: Command -> TodoListState()
+executeCommand (AddTask desc prio dueDate) = 
   addTask desc prio dueDate
 
-executeCommand (RemoveTask idx) = do
+executeCommand (RemoveTask idx) =
   removeTaskByIdx idx
 
-executeCommand (CompleteTask idx) = do
+executeCommand (CompleteTask idx) =
   markTaskCompleteByIdx idx
 
 executeCommand ListTasks = do
-  list <- getTodoList
+  list <- get
+  liftIO $ printTodoList list
   return ()
-
-printState :: TodoListState TodoList () -> IO ()
-printState state = do
-  let ((), list) = runState state []
-  liftIO $ putStrLn "Current Todo List:"
-  liftIO $ mapM_ print list
-
