@@ -9,24 +9,26 @@ import Control.Monad.IO.Class
 
 main :: IO ()
 main = do
-  putStrLn "Todo App"
+  printWelcomeMessage
   mainLoop (S (const ((), [])))
 
 
 mainLoop :: TodoListState TodoList () -> IO ()
 mainLoop state = do
-  putStrLn "Enter command:"
+  printPrompt
   input <- getLine
   case parseCommand input of
     Just command -> do
       if command == Quit
-        then putStrLn "Exiting..."
+        then printExitMessage
         else do
           let newState = executeCommand command
+          let ((), list) = runState newState []
+          printTodoList list
           printState newState
           mainLoop newState
     Nothing -> do
-      putStrLn "Invalid command, please try again."
+      printInvalidCommand
       mainLoop state
 
 executeCommand :: Command -> TodoListState TodoList ()
