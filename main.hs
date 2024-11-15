@@ -19,9 +19,12 @@ mainLoop state = do
   input <- getLine
   case parseCommand input of
     Just command -> do
-      let newState = executeCommand command
-      printState newState
-      mainLoop newState
+      if command == Quit
+        then putStrLn "Exiting..."
+        else do
+          let newState = executeCommand command
+          printState newState
+          mainLoop newState
     Nothing -> do
       putStrLn "Invalid command, please try again."
       mainLoop state
