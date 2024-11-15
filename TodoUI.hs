@@ -2,7 +2,9 @@ module TodoUI (
     printTask,
     printTodoList,
     printWelcomeMessage,
-    printInvalidCommand
+    printInvalidCommand,
+    printExitMessage,
+    printPrompt
 ) where
 import TodoTask
 import Data.List
@@ -29,3 +31,17 @@ printWelcomeMessage = putStrLn "Welcome to the Todo List CLI!"
 -- Print invalid command message
 printInvalidCommand :: IO ()
 printInvalidCommand = putStrLn "Invalid command, please try again."
+
+printPrompt :: IO ()
+printPrompt = do
+  putStrLn "Commands:"
+  putStrLn " add [description] [priority] [date?]"
+  putStrLn " remove [index]"
+  putStrLn " complete [index]"
+  putStrLn " list"
+  putStrLn " quit"
+  putStrLn "Enter command: "
+
+-- Print exit message
+printExitMessage :: IO ()
+printExitMessage = putStrLn "Exiting..."

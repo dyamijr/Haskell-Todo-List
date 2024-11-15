@@ -1,11 +1,14 @@
 module TodoState (
-    TodoListState, 
+    TodoListState(..), 
+    runState,
+    get,
+    put,
     addTask, 
     markTaskCompleteByIdx, 
     removeTaskByIdx, 
     getTodoList, 
     sortTasks, 
-    runTodoApp
+    runTodoApp,
 ) where
 
 import Data.Time (Day)
