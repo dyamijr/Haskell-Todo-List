@@ -32,6 +32,8 @@ printWelcomeMessage = putStrLn "Welcome to the Todo List CLI!"
 printInvalidCommand :: IO ()
 printInvalidCommand = putStrLn "Invalid command, please try again."
 
+-- should be adding some more like add a category to a task, sorting, print, print based on category etc. 
+-- Print all possible commands to the user 
 printPrompt :: IO ()
 printPrompt = do
   putStrLn "Commands:"

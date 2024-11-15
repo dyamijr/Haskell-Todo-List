@@ -24,6 +24,7 @@ mainLoop state = do
         else do
           let newState = executeCommand command
           let ((), list) = runState newState []
+          -- We should not be printing each time probably should make a command show todo or sum like that 
           printTodoList list
           printState newState
           mainLoop newState
