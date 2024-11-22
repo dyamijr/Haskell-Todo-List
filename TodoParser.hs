@@ -24,7 +24,7 @@ parsePriority _ = Nothing
 
 -- Parse date from a string in YYYY-MM-DD format
 parseDate :: String -> Maybe Day
-parseDate = parseTimeM True defaultTimeLocale "%Y-%m-%d"
+parseDate = parseTimeM True defaultTimeLocale "%m/%d/%Y"
 
 -- Parse the command from a user input string
 parseCommand :: String -> Maybe Command
