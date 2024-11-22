@@ -35,7 +35,7 @@ printTask idx (Task desc completed prio due categories) =
       | otherwise = " Categories: " ++ intercalate ", " categories
     dueText = case due of
       Nothing -> ""
-      Just d -> formatTime defaultTimeLocale "%m/%d/%y" d
+      Just d -> formatTime defaultTimeLocale " %m/%d/%y" d
 
 -- Print the entire todo list
 printTodoList :: TodoList -> IO ()
