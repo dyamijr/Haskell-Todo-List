@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveGeneric #-}
 module TodoTask (
     Priority(..),
     Task(..),
@@ -12,8 +13,9 @@ module TodoTask (
 import Data.Time (Day)
 import Data.List
 import Data.Ord
+import GHC.Generics (Generic)
 
-data Priority = High | Medium | Low deriving (Show, Eq, Ord)
+data Priority = High | Medium | Low deriving (Show, Eq, Ord, Generic)
 
 data Task = Task {
     description :: String,
@@ -21,7 +23,7 @@ data Task = Task {
     priority    :: Priority,
     dueDate     :: Maybe Day,
     categories  :: [String]
-} deriving (Show, Eq)
+} deriving (Show, Eq, Generic)
 
 type TodoList = [Task]
 

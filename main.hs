@@ -4,19 +4,21 @@ import TodoTask
 import TodoState
 import TodoParser
 import TodoUI
+import TodoFileSystem
 import Control.Monad
 import Control.Monad.IO.Class
 import Control.Monad.Trans.State
+import TodoParser (Command(SaveList, ShowCommands))
 
 main :: IO ()
 main = do
   printWelcomeMessage
+  printPrompt
   evalStateT mainLoop []
 
 
 mainLoop :: TodoListState()
 mainLoop = do
-  liftIO printPrompt
   input <- liftIO getLine
   case parseCommand input of
     Just command -> 
@@ -38,6 +40,20 @@ executeCommand (RemoveTask idx) =
 
 executeCommand (CompleteTask idx) =
   markTaskCompleteByIdx idx
+
+executeCommand (SaveList fp) = do
+  list <- get
+  liftIO $ saveTodoList list fp
+  return ()
+
+executeCommand (LoadList fp) = do
+  list <- liftIO $ loadTodoList fp
+  put list
+  return ()
+
+executeCommand ShowCommands = do
+  liftIO printPrompt
+  return ()
 
 executeCommand ListTasks = do
   list <- get

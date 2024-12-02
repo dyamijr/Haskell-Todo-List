@@ -5,12 +5,16 @@ import Data.Time.Format (defaultTimeLocale, parseTimeM)
 import Text.Read (readMaybe)
 import TodoState
 import TodoTask
+import System.FilePath (isValid)
 
 -- Define the Command type for different actions
 data Command
   = AddTask String Priority (Maybe Day) -- Add a task with description, priority, and optional due date
   | RemoveTask Int -- Remove task by index
   | CompleteTask Int -- Mark task as complete by index
+  | SaveList (Maybe String) -- Save a list in the file system
+  | LoadList (Maybe String) -- Loads a list from the file system
+  | ShowCommands -- Shows list of all possible commands
   | ListTasks -- List all tasks
   | Quit -- Quit the app
   deriving (Show, Eq)
@@ -46,6 +50,13 @@ parseCommand input =
       case readMaybe taskId of
         Just id -> Just (CompleteTask id)
         Nothing -> Nothing
+    ["save", filePath] -> 
+      if isValid filePath then Just (SaveList (Just filePath)) else Nothing
+    ["save"] -> Just (SaveList Nothing)
+    ["load", filePath] -> 
+      if isValid filePath then Just (LoadList (Just filePath)) else Nothing
+    ["load"] -> Just (LoadList Nothing)
     ["list"] -> Just ListTasks
+    ["commands"] -> Just ShowCommands
     ["quit"] -> Just Quit
     _ -> Nothing

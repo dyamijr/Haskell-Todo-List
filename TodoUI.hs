@@ -57,7 +57,10 @@ printPrompt = do
   putStrLn " add [description] [priority] [date?]"
   putStrLn " remove [index]"
   putStrLn " complete [index]"
+  putStrLn " save [filePath?]"
+  putStrLn " load [filePath?]"
   putStrLn " list"
+  putStrLn " commands"
   putStrLn " quit"
   putStrLn "Enter command: "
 
