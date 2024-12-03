@@ -8,7 +8,6 @@ import TodoFileSystem
 import Control.Monad
 import Control.Monad.IO.Class
 import Control.Monad.Trans.State
-import TodoParser (Command(SaveList, ShowCommands))
 
 main :: IO ()
 main = do

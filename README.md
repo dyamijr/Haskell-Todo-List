@@ -21,6 +21,20 @@ This project aims to build a simple command-line interface (CLI) todo list appli
 
 The main areas of functionality that should be tested are adding/removing tasks, marking tasks as complete, saving/loading lists, merging/combining lists, sorting by date and title, and filtering by category. Testing these areas will be done manually by performing the actions and verifying the proper behavior. A list of test cases will be made for each feature, consisting of actions and expected behavior. Additionally, we plan to perform User Acceptance Testing (UAT) using a small group of participants. We will have them test the core functionality listed above and provide scores on a scale from 1-5 for each test case/function. All users should be able to easily operate and manage the system with very little input from developers.
 
+To run the unit tests run the following. 
+```
+cabal update
+cabal build --enable-tests
+cabal test
+```
 
+## 5 How to Run
+
+To run the project you will use the .cabal file for the project. 
+```
+cabal update
+cabal build
+cabal run TodoApp
+```
 
 
