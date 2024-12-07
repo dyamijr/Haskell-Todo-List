@@ -40,5 +40,9 @@ getTodoList :: State TodoList TodoList
 getTodoList = get
 
 -- Sort tasks by priority
-sortTasks :: TodoListState()
-sortTasks = modify sortByPriority
+sortTasks :: Maybe String -> TodoListState()
+sortTasks option = case option of 
+                        Nothing -> modify sortByPriority
+                        Just "priority" -> modify sortByPriority
+                        Just "date" -> modify sortByDate
+                        Just "desc" -> modify sortByDesc

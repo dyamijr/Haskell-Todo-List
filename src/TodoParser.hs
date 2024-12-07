@@ -14,8 +14,9 @@ data Command
   | CompleteTask Int -- Mark task as complete by index
   | SaveList (Maybe String) -- Save a list in the file system
   | LoadList (Maybe String) -- Loads a list from the file system
+  | SortList (Maybe String) -- Sorts the list
   | ShowCommands -- Shows list of all possible commands
-  | ListTasks -- List all tasks
+  | ListTasks (Maybe String) -- List all tasks with possible options
   | Quit -- Quit the app
   deriving (Show, Eq)
 
@@ -56,7 +57,10 @@ parseCommand input =
     ["load", filePath] -> 
       if isValid filePath then Just (LoadList (Just filePath)) else Nothing
     ["load"] -> Just (LoadList Nothing)
-    ["list"] -> Just ListTasks
+    ["list"] -> Just (ListTasks Nothing)
+    "list" : option -> Just (ListTasks (Just (unwords option)))
+    ["sort", option] -> Just (SortList (Just option))
+    ["sort"] -> Just (SortList Nothing)
     ["commands"] -> Just ShowCommands
     ["quit"] -> Just Quit
     _ -> Nothing

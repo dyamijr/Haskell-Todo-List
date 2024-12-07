@@ -50,11 +50,40 @@ executeCommand (LoadList fp) = do
   put list
   return ()
 
+executeCommand (SortList option) = 
+  sortTasks option
+
 executeCommand ShowCommands = do
   liftIO printPrompt
   return ()
 
-executeCommand ListTasks = do
-  list <- get
-  liftIO $ printTodoList list
-  return ()
+executeCommand (ListTasks option) = case option of 
+                                      Nothing -> do 
+                                                  list <- get
+                                                  liftIO $ printTodoList list
+                                                  return ()
+                                      Just "completed" -> do
+                                                            list <- get
+                                                            let filtered = filter completed list
+                                                            liftIO $ printTodoList filtered
+                                                            return ()
+                                      Just "high priority" -> do
+                                                            list <- get
+                                                            let filtered = filter (\task -> priority task == High) list
+                                                            liftIO $ printTodoList filtered
+                                                            return ()
+                                      Just "medium priority" -> do
+                                                            list <- get
+                                                            let filtered = filter (\task -> priority task == Medium) list
+                                                            liftIO $ printTodoList filtered
+                                                            return ()
+                                      Just "low priority" -> do
+                                                            list <- get
+                                                            let filtered = filter (\task -> priority task == Low) list
+                                                            liftIO $ printTodoList filtered
+                                                            return ()
+                                      Just category -> do
+                                                            list <- get
+                                                            let filtered = filter (\task -> category `elem` categories task) list
+                                                            liftIO $ printTodoList filtered
+                                                            return ()

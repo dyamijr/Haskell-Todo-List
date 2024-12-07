@@ -7,7 +7,9 @@ module TodoTask (
     categorizeTask,
     completeTask,
     removeTaskByIndex,
-    sortByPriority
+    sortByPriority,
+    sortByDate,
+    sortByDesc
 ) where 
 
 import Data.Time (Day)
@@ -46,3 +48,21 @@ removeTaskByIndex idx list = take idx list ++ drop (idx + 1) list
 -- Function to sort the todo list by priority
 sortByPriority :: TodoList -> TodoList
 sortByPriority = sortBy (comparing priority)
+
+-- Function to sort the todo list by dueDate
+sortByDate :: TodoList -> TodoList
+sortByDate = sortBy compareTaskDueDate
+
+-- Function to sort the todo list by description
+sortByDesc :: TodoList -> TodoList
+sortByDesc = sortBy (comparing description)
+
+-- Custom comparison function for sorting by dueDate
+compareTaskDueDate :: Task -> Task -> Ordering
+compareTaskDueDate task1 task2 =
+    -- Place Just values first, compare the dates inside the Just values
+    case (dueDate task1, dueDate task2) of
+        (Just _, Nothing) -> LT  -- task1 is Just, task2 is Nothing, so task1 comes first
+        (Nothing, Just _) -> GT  -- task1 is Nothing, task2 is Just, so task2 comes first
+        (Just date1, Just date2) -> compare date1 date2  -- Compare the dates
+        (Nothing, Nothing) -> EQ  -- Both are Nothing, so they are equal
