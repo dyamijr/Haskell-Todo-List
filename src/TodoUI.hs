@@ -4,6 +4,7 @@ module TodoUI
     printWelcomeMessage,
     printInvalidCommand,
     printExitMessage,
+    printCommands,
     printPrompt,
   )
 where
@@ -16,7 +17,7 @@ import TodoTask
 printTask :: Int -> Task -> IO ()
 printTask idx (Task desc completed prio due categories) =
   putStrLn $
-    show idx 
+    show idx
       ++ completedText
       ++ categoryText
       ++ dueText
@@ -39,6 +40,7 @@ printTask idx (Task desc completed prio due categories) =
 
 -- Print the entire todo list
 printTodoList :: TodoList -> IO ()
+printTodoList [] = putStrLn "List is empty"
 printTodoList todoList = mapM_ (uncurry printTask) (zip [0 ..] todoList)
 
 -- Print welcome message
@@ -51,21 +53,25 @@ printInvalidCommand = putStrLn "Invalid command, please try again."
 
 -- should be adding some more like add a category to a task, sorting, print, print based on category etc.
 -- Print all possible commands to the user
-printPrompt :: IO ()
-printPrompt = do
+printCommands :: IO ()
+printCommands = do
   putStrLn "Commands:"
   putStrLn " add [description] [priority] [date?]"
+  putStrLn "   priority = high | medium | low"
+  putStrLn "   date = MM/DD/YY"
   putStrLn " remove [index]"
   putStrLn " complete [index]"
   putStrLn " save [filePath?]"
   putStrLn " load [filePath?]"
-  putStrLn " list [options?]"
-  putStrLn "      options include completed, priority high, priority medium, priority low, or any category"
+  putStrLn " list [option?]"
+  putStrLn "   option = completed | priority high | priority medium | priority low | <category>"
   putStrLn " sort [option?]"
-  putStrLn "      options include priority, date, desc"
+  putStrLn "   option = priority | date | desc"
   putStrLn " commands"
   putStrLn " quit"
-  putStrLn "Enter command: "
+
+printPrompt :: IO ()
+printPrompt = putStrLn "Enter command: "
 
 -- Print exit message
 printExitMessage :: IO ()
