@@ -64,7 +64,7 @@ printCommands = do
   putStrLn " save [filePath?]"
   putStrLn " load [filePath?]"
   putStrLn " list [option?]"
-  putStrLn "   option = completed | priority high | priority medium | priority low | <category>"
+  putStrLn "   option = completed | high priority | medium priority | low priority | <category>"
   putStrLn " sort [option?]"
   putStrLn "   option = priority | date | desc"
   putStrLn " commands"
