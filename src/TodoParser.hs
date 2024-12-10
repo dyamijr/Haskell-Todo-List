@@ -11,6 +11,7 @@ import System.FilePath (isValid)
 data Command
   = AddTask String Priority (Maybe Day) -- Add a task with description, priority, and optional due date
   | RemoveTask Int -- Remove task by index
+  | EditTask Int String (Maybe String) (Maybe Priority) (Maybe Day) 
   | CompleteTask Int -- Mark task as complete by index
   | SaveList (Maybe String) -- Save a list in the file system
   | LoadList (Maybe String) -- Loads a list from the file system
@@ -42,6 +43,18 @@ parseCommand input =
     ["add", desc, prio] ->
       case parsePriority prio of
         Just p -> Just (AddTask desc p Nothing)
+        Nothing -> Nothing
+    ["edit", taskId, "desc", newDesc] ->
+      case readMaybe taskId of
+        Just id -> Just (EditTask id "desc" (Just newDesc) Nothing Nothing)
+        Nothing -> Nothing
+    ["edit", taskId, "priority", newPrio] ->
+      case (readMaybe taskId, parsePriority newPrio) of
+        (Just id, Just p) -> Just (EditTask id "priority" Nothing (Just p) Nothing)
+        (_,_) -> Nothing
+    ["edit", taskId, "date", newDate] ->
+      case readMaybe taskId of
+        Just id -> Just (EditTask id "date" Nothing Nothing (parseDate newDate))
         Nothing -> Nothing
     ["remove", taskId] ->
       case readMaybe taskId of

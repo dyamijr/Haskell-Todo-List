@@ -37,6 +37,9 @@ executeCommand (AddTask desc prio dueDate) =
 executeCommand (RemoveTask idx) =
   removeTaskByIdx idx
 
+executeCommand (EditTask idx edit desc prio dueDate) =
+  editTaskbyIdx idx edit desc prio dueDate
+
 executeCommand (CompleteTask idx) =
   markTaskCompleteByIdx idx
 

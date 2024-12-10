@@ -56,6 +56,7 @@ printPrompt = do
   putStrLn "Commands:"
   putStrLn " add [description] [priority] [date?]"
   putStrLn " remove [index]"
+  putStrLn " edit [index] [element to edit] [description?] [priority?] [date?]"
   putStrLn " complete [index]"
   putStrLn " save [filePath?]"
   putStrLn " load [filePath?]"
