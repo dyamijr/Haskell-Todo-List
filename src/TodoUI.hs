@@ -40,16 +40,18 @@ printTask idx (Task desc completed prio due categories) =
 
 -- Print the entire todo list
 printTodoList :: TodoList -> IO ()
-printTodoList [] = putStrLn "List is empty"
-printTodoList todoList = mapM_ (uncurry printTask) (zip [0 ..] todoList)
+printTodoList [] = putStrLn "List is empty\n"
+printTodoList todoList = do
+  mapM_ (uncurry printTask) (zip [0 ..] todoList)
+  putStrLn ""
 
 -- Print welcome message
 printWelcomeMessage :: IO ()
-printWelcomeMessage = putStrLn "Welcome to the Todo List CLI!"
+printWelcomeMessage = putStrLn "Welcome to the Todo List CLI!\n"
 
 -- Print invalid command message
 printInvalidCommand :: IO ()
-printInvalidCommand = putStrLn "Invalid command, please try again."
+printInvalidCommand = putStrLn "Invalid command, please try again.\n"
 
 -- should be adding some more like add a category to a task, sorting, print, print based on category etc.
 -- Print all possible commands to the user
@@ -68,11 +70,11 @@ printCommands = do
   putStrLn " sort [option?]"
   putStrLn "   option = priority | date | desc"
   putStrLn " commands"
-  putStrLn " quit"
+  putStrLn " quit\n"
 
 printPrompt :: IO ()
 printPrompt = putStrLn "Enter command: "
 
 -- Print exit message
 printExitMessage :: IO ()
-printExitMessage = putStrLn "Exiting..."
+printExitMessage = putStrLn "Exiting...\n"

@@ -19,6 +19,7 @@ mainLoop :: TodoListState ()
 mainLoop = do
   liftIO printPrompt
   input <- liftIO getLine
+  liftIO $ putStrLn ""
   case parseCommand input of
     Just command ->
       if command == Quit
