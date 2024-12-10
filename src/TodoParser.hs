@@ -2,10 +2,10 @@ module TodoParser where
 
 import Data.Time (Day)
 import Data.Time.Format (defaultTimeLocale, parseTimeM)
+import System.FilePath (isValid)
 import Text.Read (readMaybe)
 import TodoState
 import TodoTask
-import System.FilePath (isValid)
 
 -- Define the Command type for different actions
 data Command
@@ -64,10 +64,10 @@ parseCommand input =
       case readMaybe taskId of
         Just id -> Just (CompleteTask id)
         Nothing -> Nothing
-    ["save", filePath] -> 
+    ["save", filePath] ->
       if isValid filePath then Just (SaveList (Just filePath)) else Nothing
     ["save"] -> Just (SaveList Nothing)
-    ["load", filePath] -> 
+    ["load", filePath] ->
       if isValid filePath then Just (LoadList (Just filePath)) else Nothing
     ["load"] -> Just (LoadList Nothing)
     ["list"] -> Just (ListTasks Nothing)
@@ -76,4 +76,5 @@ parseCommand input =
     ["sort"] -> Just (SortList Nothing)
     ["commands"] -> Just ShowCommands
     ["quit"] -> Just Quit
+    ["exit"] -> Just Quit
     _ -> Nothing
