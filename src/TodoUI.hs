@@ -62,6 +62,7 @@ printCommands = do
   putStrLn "   priority = high | medium | low"
   putStrLn "   date = MM/DD/YY"
   putStrLn " remove [index]"
+  putStrLn " categorize [index] [category]"
   putStrLn " edit [index] [element to edit] [description?] [priority?] [date?]"
   putStrLn " complete [index]"
   putStrLn " save [filePath?]"

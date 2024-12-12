@@ -39,10 +39,10 @@ executeCommand (AddTask desc prio dueDate) =
   addTask desc prio dueDate
 executeCommand (RemoveTask idx) =
   removeTaskByIdx idx
-
 executeCommand (EditTask idx edit desc prio dueDate) =
   editTaskbyIdx idx edit desc prio dueDate
-
+executeCommand (CategorizeTask idx category) =
+  addCategoryByIdx idx category
 executeCommand (CompleteTask idx) =
   markTaskCompleteByIdx idx
 executeCommand (SaveList fp) = do

@@ -10,8 +10,9 @@ import TodoTask
 -- Define the Command type for different actions
 data Command
   = AddTask String Priority (Maybe Day) -- Add a task with description, priority, and optional due date
+  | CategorizeTask Int String
   | RemoveTask Int -- Remove task by index
-  | EditTask Int String (Maybe String) (Maybe Priority) (Maybe Day) 
+  | EditTask Int String (Maybe String) (Maybe Priority) (Maybe Day)
   | CompleteTask Int -- Mark task as complete by index
   | SaveList (Maybe String) -- Save a list in the file system
   | LoadList (Maybe String) -- Loads a list from the file system
@@ -44,6 +45,9 @@ parseCommand input =
       case parsePriority prio of
         Just p -> Just (AddTask desc p Nothing)
         Nothing -> Nothing
+    ["categorize", taskId, categoryStr] ->
+      case readMaybe taskId of
+        Just id -> Just (CategorizeTask id categoryStr)
     ["edit", taskId, "desc", newDesc] ->
       case readMaybe taskId of
         Just id -> Just (EditTask id "desc" (Just newDesc) Nothing Nothing)
@@ -51,7 +55,7 @@ parseCommand input =
     ["edit", taskId, "priority", newPrio] ->
       case (readMaybe taskId, parsePriority newPrio) of
         (Just id, Just p) -> Just (EditTask id "priority" Nothing (Just p) Nothing)
-        (_,_) -> Nothing
+        (_, _) -> Nothing
     ["edit", taskId, "date", newDate] ->
       case readMaybe taskId of
         Just id -> Just (EditTask id "date" Nothing Nothing (parseDate newDate))
